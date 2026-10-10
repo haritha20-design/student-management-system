@@ -1,0 +1,115 @@
+
+{% extends "base.html" %}
+
+{% block title %}Sign In | StudentHub{% endblock %}
+
+{% block body %}
+
+<div class="auth-page">
+
+    <section class="auth-visual">
+
+        <a href="#" class="auth-brand">
+            <i class="fa-solid fa-graduation-cap"></i>
+            StudentHub
+        </a>
+
+        <div class="auth-hero">
+            <h1>Welcome back to your student management workspace.</h1>
+
+            <p>
+                Sign in to manage academic records, organize student
+                information, and access your personalized dashboard
+                securely.
+            </p>
+        </div>
+
+        <div class="auth-footer">
+            © 2026 StudentHub. All rights reserved.
+        </div>
+
+    </section>
+
+    <section class="auth-panel">
+
+        <div class="auth-form">
+
+            <h2>Welcome back!</h2>
+
+            <p class="auth-description">
+                Enter your account details to sign in.
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('login') }}">
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        maxlength="150"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <div class="password-wrap">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-toggle-password="password"
+                            aria-label="Show password">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="text-align: right; margin: -4px 0 18px;">
+                    <a href="{{ url_for('forgot_password') }}"
+                       class="text-link">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Sign In
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </form>
+
+            <div class="auth-links">
+                Don't have an account?
+                <a href="{{ url_for('register') }}">Create account</a>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,146 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Student Management{% endblock %}
+
+{% block page_heading %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-welcome">
+    <div>
+        <h2>Welcome, {{ session.get('full_name', 'User') }}!</h2>
+
+        {% if session.get('role') == 'admin' %}
+            <p>Manage student records and monitor your institution.</p>
+        {% else %}
+            <p>Welcome to your student dashboard.</p>
+        {% endif %}
+    </div>
+
+    <div class="welcome-icon">
+        <i class="fa-solid fa-graduation-cap"></i>
+    </div>
+</div>
+
+{% if session.get('role') == 'admin' %}
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div>
+                <p>Total Students</p>
+                <h3>{{ total_students or 0 }}</h3>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+
+            <div>
+                <p>Quick Action</p>
+                <a href="{{ url_for('add_student') }}">
+                    Add Student
+                </a>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon purple">
+                <i class="fa-solid fa-list"></i>
+            </div>
+
+            <div>
+                <p>Student Records</p>
+                <a href="{{ url_for('students') }}">
+                    View Students
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dashboard-panel">
+        <h3>Admin Quick Actions</h3>
+
+        <p>
+            Add new students, search existing records,
+            and manage student information.
+        </p>
+
+        <div class="action-buttons">
+            <a class="btn btn-primary"
+               href="{{ url_for('add_student') }}">
+                <i class="fa-solid fa-plus"></i>
+                Add Student
+            </a>
+
+            <a class="btn btn-secondary"
+               href="{{ url_for('students') }}">
+                <i class="fa-solid fa-users"></i>
+                View All Students
+            </a>
+        </div>
+    </div>
+
+{% else %}
+
+    <div class="dashboard-panel">
+        <h3>My Student Details</h3>
+
+        {% if student %}
+
+            <div class="profile-details">
+
+                <div>
+                    <span>Full Name</span>
+                    <strong>{{ student.name }}</strong>
+                </div>
+
+                <div>
+                    <span>Email</span>
+                    <strong>{{ student.email }}</strong>
+                </div>
+
+                <div>
+                    <span>Phone</span>
+                    <strong>{{ student.phone or 'Not provided' }}</strong>
+                </div>
+
+                <div>
+                    <span>Course</span>
+                    <strong>{{ student.course or 'Not assigned' }}</strong>
+                </div>
+
+                <div>
+                    <span>Marks</span>
+                    <strong>
+                        {{ student.marks if student.marks is not none else 'Not available' }}
+                    </strong>
+                </div>
+
+            </div>
+
+            <a class="btn btn-primary"
+               href="{{ url_for('my_profile') }}">
+                View My Profile
+            </a>
+
+        {% else %}
+
+            <p>Your student profile has not been created yet.</p>
+
+        {% endif %}
+    </div>
+
+{% endif %}
+
+{% endblock %}

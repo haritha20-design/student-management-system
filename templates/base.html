@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}StudentHub | Student Management{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    {% block body %}
+
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="{{ url_for('dashboard') }}" class="brand">
+                <span class="brand-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </span>
+                <span>StudentHub</span>
+            </a>
+
+            <p class="menu-label">MAIN MENU</p>
+
+            
+<nav class="sidebar-nav">
+
+    <a href="{{ url_for('dashboard') }}" class="nav-link">
+        <i class="fa-solid fa-gauge-high"></i>
+        <span>Dashboard</span>
+    </a>
+
+    {% if session.get('role') == 'admin' %}
+
+        <a href="{{ url_for('students') }}" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            <span>All Students</span>
+        </a>
+
+        <a href="{{ url_for('add_student') }}" class="nav-link">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Add Student</span>
+        </a>
+
+    {% elif session.get('role') == 'student' %}
+
+        <a href="{{ url_for('my_profile') }}" class="nav-link">
+            <i class="fa-solid fa-user"></i>
+            <span>My Profile</span>
+        </a>
+
+    {% endif %}
+
+    {% if session.get('user_id') %}
+
+        <a href="{{ url_for('logout') }}" class="nav-link">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
+
+    {% endif %}
+
+</nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-help">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <p>Need help?</p>
+                    <small>Manage your student records with ease.</small>
+                </div>
+
+                <a href="{{ url_for('logout') }}" class="nav-link logout-link">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-area">
+
+            <header class="topbar">
+                <div>
+                    <p class="topbar-caption">STUDENT MANAGEMENT PORTAL</p>
+                    <h2>{% block page_heading %}Dashboard{% endblock %}</h2>
+                </div>
+
+                <div class="topbar-user">
+                    <div class="user-avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div>
+                        <strong>{{ session.get('full_name', 'User') }}</strong>
+                        <small>{{ session.get('role', 'Student')|title }}</small>
+                    </div>
+                </div>
+            </header>
+
+            <main class="page-content">
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+
+            </main>
+
+            <footer class="footer">
+                <p>© 2026 StudentHub. Student Management System.</p>
+            </footer>
+
+        </div>
+    </div>
+
+    {% endblock %}
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

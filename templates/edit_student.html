@@ -1,0 +1,106 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Student | Student Management{% endblock %}
+
+{% block page_heading %}Edit Student{% endblock %}
+
+{% block content %}
+
+<div class="page-toolbar">
+    <div>
+        <h2>Edit Student Details</h2>
+        <p>Update the student's information.</p>
+    </div>
+
+    <a href="{{ url_for('students') }}" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Students
+    </a>
+</div>
+
+<div class="dashboard-panel form-panel">
+
+    <div class="form-heading">
+        <div class="form-heading-icon">
+            <i class="fa-solid fa-user-pen"></i>
+        </div>
+        <div>
+            <h3>Student Information</h3>
+            <p>Student ID: #{{ student.id }}</p>
+        </div>
+    </div>
+
+    <form method="POST"
+          action="{{ url_for('edit_student', student_id=student.id) }}"
+          class="student-form">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name"
+                       value="{{ student.name }}"
+                       maxlength="100" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email"
+                       value="{{ student.email }}"
+                       maxlength="150" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone"
+                       value="{{ student.phone or '' }}"
+                       maxlength="15">
+            </div>
+            
+           <div class="form-group">
+               <label for="age">Age</label>
+               <input
+                   type="number"
+                   id="age"
+                   name="age"
+                   value="{{ student.age if student.age is not none else '' }}"
+                   min="1"
+                   max="100"
+                  >
+                </div>
+
+
+            <div class="form-group">
+                <label for="course">Course</label>
+                <input type="text" id="course" name="course"
+                       value="{{ student.course or '' }}"
+                       maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="marks">Marks (0–100)</label>
+                <input type="number" id="marks" name="marks"
+                       value="{{ student.marks if student.marks is not none else '' }}"
+                       min="0" max="100" step="0.01">
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Update Student
+            </button>
+
+            <a href="{{ url_for('students') }}"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

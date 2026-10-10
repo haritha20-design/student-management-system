@@ -1,0 +1,95 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Profile | Student Management{% endblock %}
+
+{% block page_heading %}My Profile{% endblock %}
+
+{% block content %}
+
+<div class="page-toolbar">
+    <div>
+        <h2>My Student Profile</h2>
+        <p>View your registered information.</p>
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Dashboard
+    </a>
+</div>
+
+<div class="dashboard-panel">
+
+    {% if student %}
+
+        <div class="form-heading">
+            <div class="form-heading-icon">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+
+            <div>
+                <h3>{{ student.name }}</h3>
+                <p>Student ID: #{{ student.id }}</p>
+            </div>
+        </div>
+
+        <div class="profile-details">
+
+            <div>
+                <span>Full Name</span>
+                <strong>{{ student.name }}</strong>
+            </div>
+
+            <div>
+                <span>Email Address</span>
+                <strong>{{ student.email }}</strong>
+            </div>
+
+            <div>
+                <span>Phone Number</span>
+                <strong>{{ student.phone or 'Not provided' }}</strong>
+            </div>
+            
+<div>
+    <span>Age</span>
+    <strong>
+        {{ student.age if student.age is not none else 'Not provided' }}
+    </strong>
+</div>
+
+
+            <div>
+                <span>Course</span>
+                <strong>{{ student.course or 'Not assigned' }}</strong>
+            </div>
+
+            <div>
+                <span>Marks</span>
+                <strong>
+                    {{ student.marks if student.marks is not none else 'Not available' }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Registered On</span>
+                <strong>
+                    {{ student.created_at.strftime('%d-%m-%Y') if student.created_at else 'Not available' }}
+                </strong>
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <i class="fa-solid fa-user-graduate"></i>
+            <h3>Profile Not Found</h3>
+            <p>Your student profile is not available yet. Please contact the administrator.</p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

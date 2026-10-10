@@ -1,0 +1,83 @@
+
+{% extends "base.html" %}
+
+{% block title %}Verify OTP | StudentHub{% endblock %}
+
+{% block body %}
+
+<div class="auth-page">
+
+    <section class="auth-visual">
+        <a href="{{ url_for('login') }}" class="auth-brand">
+            <i class="fa-solid fa-graduation-cap"></i>
+            StudentHub
+        </a>
+
+        <div class="auth-hero">
+            <h1>One step closer.</h1>
+            <p>Verify your email with the code we sent you to reset your password securely.</p>
+        </div>
+
+        <div class="auth-footer">
+            © 2026 StudentHub. All rights reserved.
+        </div>
+    </section>
+
+    <section class="auth-panel">
+        <div class="auth-form">
+
+            <div style="width:58px;height:58px;display:grid;place-items:center;background:#e9eeff;color:#3157d5;border-radius:16px;font-size:23px;margin-bottom:24px;">
+                <i class="fa-solid fa-envelope-circle-check"></i>
+            </div>
+
+            <h2>Verify your email</h2>
+
+            <p class="auth-description">
+                Enter the 6-digit OTP sent to your email address.
+                The code expires in 5 minutes.
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('verify_otp') }}">
+                <div class="form-group">
+                    <label for="otp">6-digit OTP</label>
+                    <input
+                        type="text"
+                        id="otp"
+                        name="otp"
+                        placeholder="Enter OTP"
+                        inputmode="numeric"
+                        pattern="[0-9]{6}"
+                        maxlength="6"
+                        autocomplete="one-time-code"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Verify OTP
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="auth-links">
+                <a href="{{ url_for('forgot_password') }}">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}
